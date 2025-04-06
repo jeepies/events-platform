@@ -12,7 +12,12 @@
     "prepare": "husky",
     "format": "prettier . --write",
     "lint-staged": "lint-staged",
-    "docker:dev:up": "docker compose -f docker-compose.yml -f ./docker/docker-compose.local.yml up -d"
+    "docker:dev:up": "docker compose -f docker-compose.yml -f ./docker/docker-compose.local.yml up -d",
+    "db:generate": "bunx prisma generate",
+    "db:seed": "bunx prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "lint-staged": {
     "**/*.ts,tsx": [
@@ -31,6 +36,7 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.16.4",
+    "@types/node": "^22.14.0",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
@@ -48,7 +54,8 @@
     "prettier": "^3.5.3",
     "prisma": "^6.5.0",
     "tailwindcss": "^3.4.4",
-    "typescript": "^5.1.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
     "vite": "^6.0.0",
     "vite-tsconfig-paths": "^4.2.1"
   },
