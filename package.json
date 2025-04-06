@@ -9,7 +9,15 @@
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
-    "prepare": "husky"
+    "prepare": "husky",
+    "format": "prettier . --write",
+    "lint-staged": "lint-staged"
+  },
+  "lint-staged": {
+    "**/*.ts,tsx": [
+      "bun lint",
+      "bun format"
+    ]
   },
   "dependencies": {
     "@remix-run/node": "^2.16.4",
