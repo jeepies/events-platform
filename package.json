@@ -14,7 +14,8 @@
     "lint-staged": "lint-staged",
     "docker:dev:up": "docker compose -f docker-compose.yml -f ./docker/docker-compose.local.yml up -d",
     "db:generate": "bunx prisma generate",
-    "db:seed": "bunx prisma db seed"
+    "db:seed": "bunx prisma db seed",
+    "db:migrate": "bunx prisma migrate dev"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
