@@ -1,0 +1,28 @@
+import bcrypt from 'bcryptjs';
+import { prisma } from '../database.server';
+import { User } from '@prisma/client';
+import config from '../config.server';
+
+export async function isEmailTaken(email: string): Promise<boolean> {
+  return (await prisma.user.count({ where: { email: email } })) === 1;
+}
+
+export async function createUser(user: { email: string; password: string }): Promise<User> {
+  const hashedPassword = bcrypt.hashSync(user.password, config.PASSWORD_SALT);
+  return await prisma.user.create({
+    data: {
+      email: user.email,
+      password: hashedPassword,
+    },
+  });
+}
+
+export async function doesPasswordMatchForEmail(email: string, password: string): Promise<boolean> {
+  const user = await prisma.user.findFirstOrThrow({
+    where: {
+      email: email,
+    },
+  });
+
+  return await bcrypt.compare(password, user.password);
+}
