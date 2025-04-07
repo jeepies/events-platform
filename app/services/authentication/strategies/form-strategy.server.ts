@@ -58,7 +58,11 @@ async function registerHandler(parameters: HandlerParameters) {
 async function loginHandler(parameters: HandlerParameters) {
   const { form, returnable } = parameters;
 
-  const payload = schemas.registerSchema.safeParse(form);
+  let originalRememberMe = form.rememberMe;
+  delete form.rememberMe;
+  let _form = { ...form, rememberMe: originalRememberMe === 'true' };
+
+  const payload = schemas.loginSchema.safeParse(_form);
 
   if (!payload.success && payload.error) {
     const error = payload.error.flatten();
@@ -67,7 +71,21 @@ async function loginHandler(parameters: HandlerParameters) {
     return;
   }
 
-  // TODO Implement logic for login
+  const { email, password } = payload.data;
+
+  const user = await usersModel.getUserByEmail(email);
+  if (!user) {
+    returnable.field.email = ['This email is not in use. Are you trying to register?'];
+    return;
+  }
+
+  const doesPasswordMatch = await usersModel.doesPasswordMatchForEmail(email, password);
+  if (!doesPasswordMatch) {
+    returnable.field.password = ['This password is incorrect.'];
+    return;
+  }
+
+  returnable.data.user = user;
 }
 
 interface HandlerParameters {
