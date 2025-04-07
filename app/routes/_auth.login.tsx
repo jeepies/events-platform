@@ -147,6 +147,14 @@ export default function Login() {
         </form>
       </Form>
 
+      <div className="text-center text-sm mt-2">
+        New here?
+        <a href="/register" className="text-primary hover:text-primary/90">
+          {' '}
+          Register
+        </a>
+      </div>
+
       <Button className="w-full mt-2" variant="outline" onClick={testerDetails}>
         I'm here to test
       </Button>
