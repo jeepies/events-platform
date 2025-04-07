@@ -1,10 +1,12 @@
+import bcrypt from 'bcryptjs';
+import config from '~/services/config.server';
 import { prisma } from '~/services/database.server';
 
 async function seed() {
   const testUser = await prisma.user.create({
     data: {
       email: 'test@example.com',
-      password: 'test',
+      password: bcrypt.hashSync('eventsPlatformTester!123', config.BCRYPT_COST),
     },
   });
 }
