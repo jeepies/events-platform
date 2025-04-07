@@ -30,8 +30,8 @@ export default function EventCard({ Event }: Readonly<EventCardProps>) {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className="w-4 h-4 rounded-full float-right bg-red-600">
-                    <div className="w-2 h-2 m-1 rounded-full float-right bg-red-400" />
+                  <div className="w-4 h-4 rounded-full float-right bg-red-300">
+                    <div className="w-3 h-3 m-0.5 rounded-full float-right bg-red-500" />
                   </div>
                 </TooltipTrigger>
                 <TooltipContent className="bg-black text-white rounded p-2 opacity-60">
