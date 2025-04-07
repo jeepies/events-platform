@@ -1,5 +1,6 @@
 import { LoaderFunctionArgs, MetaFunction, redirect } from '@remix-run/node';
-import { useRouteLoaderData } from '@remix-run/react';
+import { Outlet, useRouteLoaderData } from '@remix-run/react';
+import { Sidebar } from '~/components/sidebar';
 import { destroySession, getSession, getUserBySession } from '~/services/session.server';
 
 export const meta: MetaFunction = () => {
@@ -25,4 +26,19 @@ export async function loader({ request }: LoaderFunctionArgs) {
     });
 
   return { user };
+}
+
+export default function App() {
+  return (
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar className="border-r" />
+      <div className="flex-grow rounded w-full h-full overflow-auto">
+        <div className="flex h-screen">
+          <main className="flex-1 p-8 overflow-y-auto">
+            <Outlet />
+          </main>
+        </div>
+      </div>
+    </div>
+  );
 }

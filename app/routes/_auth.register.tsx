@@ -20,7 +20,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const user = auth.data.user as User;
     const session = await getSession(request.headers.get('Cookie'));
     session.set('userID', user.id);
-    return redirect('/dashboard?ftx=true', {
+    return redirect('/dashboard/index?ftx=true', {
       headers: {
         'Set-Cookie': await commitSession(session),
       },
