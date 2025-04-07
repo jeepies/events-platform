@@ -20,7 +20,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const user = auth.data.user as User;
     const session = await getSession(request.headers.get('Cookie'));
     session.set('userID', user.id);
-    return redirect('/dashboard/index', {
+    return redirect('/dashboard/index?ftx=true', {
       headers: {
         'Set-Cookie': await commitSession(session),
       },
@@ -58,7 +58,7 @@ export default function Register() {
     <div>
       <div className="space-y-2 text-center">
         <h1 className="text-2xl font-bold">Register</h1>
-        <p className="text-muted-foreground">You'll always be welcome here!</p>
+        <p className="text-muted-foreground">Let's get booking!</p>
       </div>
 
       <Form {...form}>
