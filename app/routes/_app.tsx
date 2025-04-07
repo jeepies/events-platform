@@ -26,7 +26,3 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   return { user };
 }
-
-export function useAppLoader() {
-  return useRouteLoaderData<typeof loader>('routes/_app');
-}
