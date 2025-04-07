@@ -1,5 +1,6 @@
-import { LoaderFunctionArgs, MetaFunction } from '@remix-run/node';
+import { LoaderFunctionArgs, MetaFunction, redirect } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
+import { getSession } from '~/services/session.server';
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,7 +11,8 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  // TODO This should check if a user has a valid session, and redirect them to the dashboard if so
+  const session = await getSession(request.headers.get('Cookie'));
+  if (session.has('userID')) return redirect('/dashboard');
   return null;
 }
 
