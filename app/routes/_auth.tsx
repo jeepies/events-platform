@@ -12,7 +12,7 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
-  if (session.has('userID')) return redirect('/dashboard');
+  if (session.has('userID')) return redirect('/dashboard/index');
   return null;
 }
 

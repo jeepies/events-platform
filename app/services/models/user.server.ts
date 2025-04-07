@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '../database.server';
 import { User } from '@prisma/client';
 import config from '../config.server';
+import { generateFromEmail } from 'unique-username-generator';
 
 export async function isEmailTaken(email: string): Promise<boolean> {
   return (await prisma.user.count({ where: { email: email } })) === 1;
@@ -9,10 +10,12 @@ export async function isEmailTaken(email: string): Promise<boolean> {
 
 export async function createUser(user: { email: string; password: string }): Promise<User> {
   const hashedPassword = bcrypt.hashSync(user.password, config.BCRYPT_COST);
+  const generatedDisplayName = generateFromEmail(user.email, 3);
   return await prisma.user.create({
     data: {
       email: user.email,
       password: hashedPassword,
+      display_name: generatedDisplayName,
     },
   });
 }

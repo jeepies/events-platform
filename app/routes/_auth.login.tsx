@@ -13,6 +13,7 @@ import { Input } from '~/components/ui/input';
 import { authenticator } from '~/services/authentication/authenticator.server';
 import { LoginForm, loginSchema } from '~/services/authentication/schemas';
 import { commitSession, getSession } from '~/services/session.server';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip';
 
 export async function action({ request }: ActionFunctionArgs) {
   const auth = await authenticator.authenticate('form', request);
@@ -21,7 +22,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const user = auth.data.user as User;
     const session = await getSession(request.headers.get('Cookie'));
     session.set('userID', user.id);
-    return redirect('/dashboard', {
+    return redirect('/dashboard/index', {
       headers: {
         'Set-Cookie': await commitSession(session),
       },
@@ -147,9 +148,26 @@ export default function Login() {
         </form>
       </Form>
 
-      <Button className="w-full mt-2" variant="outline" onClick={testerDetails}>
-        I'm here to test
-      </Button>
+      <div className="text-center text-sm mt-2">
+        New here?
+        <a href="/register" className="text-primary hover:text-primary/90">
+          {' '}
+          Register
+        </a>
+      </div>
+
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button className="w-full mt-2" variant="outline" onClick={testerDetails}>
+              I'm here to test
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent className="bg-black">
+            <p>This will log you into a shared account, accessible by anybody with access to this website</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 }

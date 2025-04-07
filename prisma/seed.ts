@@ -7,6 +7,7 @@ async function seed() {
     data: {
       email: 'test@example.com',
       password: bcrypt.hashSync('eventsPlatformTester!123', config.BCRYPT_COST),
+      display_name: "events_platform_tester"
     },
   });
 }

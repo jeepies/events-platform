@@ -20,7 +20,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const user = auth.data.user as User;
     const session = await getSession(request.headers.get('Cookie'));
     session.set('userID', user.id);
-    return redirect('/dashboard?ftx=true', {
+    return redirect('/dashboard/index?ftx=true', {
       headers: {
         'Set-Cookie': await commitSession(session),
       },
@@ -123,12 +123,19 @@ export default function Register() {
             )}
           />
 
-          <Button type="submit" className="w-full t-2" disabled={isLoading}>
+          <Button type="submit" className="w-full mt-2" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Create an Account
           </Button>
         </form>
       </Form>
+
+      <div className="text-center text-sm mt-2">
+        Already have an account?{' '}
+        <a href="/login" className="text-primary hover:text-primary/90">
+          Login
+        </a>
+      </div>
     </div>
   );
 }
