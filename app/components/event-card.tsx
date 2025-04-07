@@ -1,6 +1,6 @@
 import { Link } from '@remix-run/react';
 import { ArrowRight, Calendar } from 'lucide-react';
-import { calculateSecondsUntil, convertDateToComfyLocalTime } from '~/lib/utils';
+import { breakSecondsIntoComponents, calculateSecondsUntil, convertDateToComfyLocalTime, turnComponentsIntoString } from '~/lib/utils';
 import { Card, CardContent } from './ui/card';
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@radix-ui/react-tooltip';
 import { Button } from './ui/button';
@@ -18,6 +18,9 @@ interface EventCardProps {
 
 export default function EventCard({ Event }: Readonly<EventCardProps>) {
   const secondsUntilEventStarts = calculateSecondsUntil(Event.Start);
+  const secondsAsComponents = breakSecondsIntoComponents(secondsUntilEventStarts);
+
+  console.log(secondsAsComponents);
 
   return (
     <Card>
@@ -43,7 +46,14 @@ export default function EventCard({ Event }: Readonly<EventCardProps>) {
           <p className="text-md my-2 truncate">{Event.Description}</p>
           <span className="text-muted-foreground text-sm inline-flex">
             <Calendar size={20} className="mr-1" />
-            {convertDateToComfyLocalTime(Event.Start)} to {convertDateToComfyLocalTime(Event.End)}
+            {secondsUntilEventStarts <= 604800 ?
+              <>
+              {turnComponentsIntoString(secondsAsComponents)}
+              </>
+            : <>
+                {convertDateToComfyLocalTime(Event.Start)} to {convertDateToComfyLocalTime(Event.End)}
+              </>
+            }
           </span>
           {/* <div className="grid gap-1 grid-cols-3">
             {Event.Tags.map((tag) => (
