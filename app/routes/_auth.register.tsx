@@ -1,20 +1,18 @@
-import { ActionFunctionArgs } from '@remix-run/node';
-import { act, useState } from 'react';
-import { useActionData, useSubmit } from '@remix-run/react';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
-import { authenticator } from '~/services/authentication/authenticator.server';
-import { Button } from '~/components/ui/button';
-import { Loader2 } from 'lucide-react';
-import { Input } from '~/components/ui/input';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { registerSchema, RegisterForm } from '~/services/authentication/schemas';
+import { Label } from '@radix-ui/react-label';
+import { ActionFunctionArgs } from '@remix-run/node';
+import { useActionData, useSubmit } from '@remix-run/react';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Button } from '~/components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
+import { Input } from '~/components/ui/input';
+import { authenticator } from '~/services/authentication/authenticator.server';
+import { RegisterForm, registerSchema } from '~/services/authentication/schemas';
 
 export async function action({ request }: ActionFunctionArgs) {
   const auth = await authenticator.authenticate('form', request);
-
-  console.log(auth);
-
   return auth;
 }
 
@@ -37,9 +35,6 @@ export default function Register() {
       setIsLoading(true);
       submit(data, { method: 'POST', encType: 'multipart/form-data' });
       await new Promise((r) => setTimeout(r, 1000));
-    } catch (error) {
-      // TODO Display errors to the user instead of to the console
-      console.log(`Error while registering - ${error}`);
     } finally {
       setIsLoading(false);
     }
@@ -66,6 +61,9 @@ export default function Register() {
               </FormItem>
             )}
           />
+          {actionData?.field.email ?
+            <Label className='text-destructive'>{actionData.field.email}</Label>
+          : <></>}
 
           <FormField
             name="password"
