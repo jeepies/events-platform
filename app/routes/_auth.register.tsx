@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { User } from '@prisma/client';
 import { Label } from '@radix-ui/react-label';
 import { ActionFunctionArgs } from '@remix-run/node';
-import { useActionData, useSubmit } from '@remix-run/react';
+import { redirect, useActionData, useSubmit } from '@remix-run/react';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -10,9 +11,22 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '~/components/ui/input';
 import { authenticator } from '~/services/authentication/authenticator.server';
 import { RegisterForm, registerSchema } from '~/services/authentication/schemas';
+import { commitSession, getSession } from '~/services/session.server';
 
 export async function action({ request }: ActionFunctionArgs) {
   const auth = await authenticator.authenticate('form', request);
+
+  if (!auth.hasErrored && auth.data['user']) {
+    const user = auth.data.user as User;
+    const session = await getSession(request.headers.get('Cookie'));
+    session.set('userID', user.id);
+    return redirect('/dashboard/index', {
+      headers: {
+        'Set-Cookie': await commitSession(session),
+      },
+    });
+  }
+
   return auth;
 }
 
@@ -62,7 +76,7 @@ export default function Register() {
             )}
           />
           {actionData?.field.email ?
-            <Label className='text-destructive'>{actionData.field.email}</Label>
+            <Label className="text-destructive">{actionData.field.email}</Label>
           : <></>}
 
           <FormField
