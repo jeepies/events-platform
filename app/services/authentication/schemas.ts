@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string(),
-  rememberMe: z.boolean().default(false),
+  rememberMe: z.boolean(),
   type: z.string(),
 });
 
