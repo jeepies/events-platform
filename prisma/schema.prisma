@@ -29,6 +29,8 @@ model Event {
   title       String
   description String
 
+  tags String[]
+
   start    DateTime
   end      DateTime
   Attendee Attendee[]
