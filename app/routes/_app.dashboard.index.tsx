@@ -3,7 +3,7 @@ import { useLoaderData } from '@remix-run/react';
 import { toast } from 'sonner';
 import EventCard from '~/components/event-card';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
-import { getEventsForUserFromID } from '~/services/models/event.server';
+import { getUpcomingEventsForUserFromID } from '~/services/models/event.server';
 import { getSession, getUserBySession } from '~/services/session.server';
 
 export async function loader({ request }: LoaderFunctionArgs) {
@@ -15,7 +15,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   if (!user) return redirect('/');
 
-  const events = await getEventsForUserFromID(user.id);
+  const events = await getUpcomingEventsForUserFromID(user.id);
 
   return { isNewHere, user, events };
 }
@@ -44,6 +44,7 @@ export default function Dashboard() {
                 Description: event.event.description,
                 Start: event.event.start,
                 End: event.event.end,
+                Tags: event.event.tags
               };
               return <EventCard Event={_event} />;
             })

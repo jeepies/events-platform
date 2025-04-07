@@ -17,7 +17,7 @@ export async function getAttendeesForEventID(id: string): Promise<Attendee[]> {
   });
 }
 
-export async function getEventsForUserFromID(id: string, overload?: { hide_past: boolean, take: number }): Promise<Prisma.AttendeeGetPayload<{ include: { event: true }}>[]> {
+export async function getUpcomingEventsForUserFromID(id: string, overload?: { hide_past: boolean, take: number }): Promise<Prisma.AttendeeGetPayload<{ include: { event: true }}>[]> {
   return await prisma.attendee.findMany({
     where: {
       userId: id,
@@ -26,6 +26,13 @@ export async function getEventsForUserFromID(id: string, overload?: { hide_past:
       event: true,
     },
     take: overload?.take ?? 5,
+    orderBy: [
+      {
+        event: {
+          start: "asc"
+        }
+      }
+    ]
   });
 }
 
