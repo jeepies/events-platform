@@ -1,11 +1,11 @@
 import 'dotenv/config';
 
 interface Config {
-  PASSWORD_SALT: string;
+  BCRYPT_COST: number;
 }
 
 const config: Config = {
-  PASSWORD_SALT: process.env.PASSWORD_SALT || 'super_secret_salty_boi',
+  BCRYPT_COST: Number(process.env.BCRYPT_COST) || 10,
 };
 
 export default config;

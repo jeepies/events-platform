@@ -8,7 +8,7 @@ export async function isEmailTaken(email: string): Promise<boolean> {
 }
 
 export async function createUser(user: { email: string; password: string }): Promise<User> {
-  const hashedPassword = bcrypt.hashSync(user.password, config.PASSWORD_SALT);
+  const hashedPassword = bcrypt.hashSync(user.password, config.BCRYPT_COST);
   return await prisma.user.create({
     data: {
       email: user.email,
