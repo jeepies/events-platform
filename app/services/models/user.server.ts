@@ -26,3 +26,11 @@ export async function doesPasswordMatchForEmail(email: string, password: string)
 
   return await bcrypt.compare(password, user.password);
 }
+
+export async function getUserByEmail(email: string): Promise<User | null> {
+  return await prisma.user.findFirst({
+    where: {
+      email: email,
+    },
+  });
+}
