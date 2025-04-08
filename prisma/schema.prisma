@@ -13,34 +13,4 @@ model User {
   password String
 
   display_name String
-
-  is_admin Boolean @default(false)
-
-  events   Event[]
-  Attendee Attendee[]
-}
-
-model Event {
-  id String @unique @default(cuid())
-
-  host   User   @relation(fields: [hostId], references: [id])
-  hostId String
-
-  title       String
-  description String
-
-  tags String[]
-
-  start    DateTime
-  end      DateTime
-  Attendee Attendee[]
-}
-
-model Attendee {
-  event   Event  @relation(fields: [eventId], references: [id])
-  eventId String
-  user    User   @relation(fields: [userId], references: [id])
-  userId  String
-
-  @@id([userId, eventId])
 }
