@@ -3,6 +3,7 @@ import { useLoaderData } from '@remix-run/react';
 import { toast } from 'sonner';
 import EventCard from '~/components/event-card';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
+import { Skeleton } from '~/components/ui/skeleton';
 import { getUpcomingEventsForUserFromID } from '~/services/models/event.server';
 import { getSession, getUserBySession } from '~/services/session.server';
 
@@ -49,6 +50,14 @@ export default function Dashboard() {
               return <EventCard Event={_event} />;
             })
           }
+        </CardContent>
+      </Card>
+      <Card className="mt-4">
+        <CardHeader>
+          <CardTitle>Suggestions</CardTitle>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 grid-rows-0">
+          <EventCard Event={ { Identifier: "", Title: "Nothing!", Description: "test", Start: new Date(), End: new Date(), Tags: [] } }/>
         </CardContent>
       </Card>
     </>

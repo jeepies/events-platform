@@ -7,8 +7,6 @@ import {
   turnComponentsIntoString,
 } from '~/lib/utils';
 import { Card, CardContent } from './ui/card';
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@radix-ui/react-tooltip';
-import { Button } from './ui/button';
 
 interface EventCardProps {
   Event: {
@@ -24,8 +22,6 @@ interface EventCardProps {
 export default function EventCard({ Event }: Readonly<EventCardProps>) {
   const secondsUntilEventStarts = calculateSecondsUntil(Event.Start);
   const secondsAsComponents = breakSecondsIntoComponents(secondsUntilEventStarts);
-
-  console.log(secondsAsComponents);
 
   return (
     <Card>
