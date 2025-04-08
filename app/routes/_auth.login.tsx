@@ -22,7 +22,7 @@ export async function action({ request }: ActionFunctionArgs) {
     const user = auth.data.user as User;
     const session = await getSession(request.headers.get('Cookie'));
     session.set('userID', user.id);
-    return redirect('/dashboard/index', {
+    return redirect('/', {
       headers: {
         'Set-Cookie': await commitSession(session),
       },
