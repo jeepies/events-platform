@@ -5,9 +5,18 @@ import { prisma } from '~/services/database.server';
 async function seed() {
   const testUser = await prisma.user.create({
     data: {
-      email: 'test@example.com',
+      email: 'test@events-platform.com',
       password: bcrypt.hashSync('eventsPlatformTester!123', config.BCRYPT_COST),
       display_name: 'eventer',
+    },
+  });
+
+  const testStaffUser = await prisma.user.create({
+    data: {
+      email: 'admin@events-platform.com',
+      password: bcrypt.hashSync('eventsPlatformStaff!123', config.BCRYPT_COST),
+      display_name: 'admin1',
+      is_staff: true,
     },
   });
 
@@ -16,7 +25,14 @@ async function seed() {
       title: 'The first event',
       description: 'This is the first ever event. like in the world. ever.',
       time: new Date(),
-      location: "The Core Theatre",
+      location: 'The Core Theatre',
+    },
+  });
+
+  await prisma.attendee.create({
+    data: {
+      eventId: firstEvent.id,
+      userId: testUser.id,
     },
   });
 }
