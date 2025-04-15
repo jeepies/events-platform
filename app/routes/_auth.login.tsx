@@ -164,7 +164,7 @@ export default function Login() {
             </Button>
           </TooltipTrigger>
           <TooltipContent className="bg-black">
-            <p>This will log you into a shared account, accessible by anybody with access to this website</p>
+            <p>This will log you into a shared account, accessible to everybody</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
