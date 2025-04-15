@@ -13,4 +13,35 @@ model User {
   password String
 
   display_name String
+
+  is_staff Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  attendee Attendee[]
+}
+
+model Event {
+  id          String   @unique @default(cuid())
+  title       String
+  description String
+  time        DateTime
+  location    String
+
+  attendees Attendee[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Attendee {
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+
+  createdAt DateTime @default(now())
+
+  @@id([userId, eventId])
 }
