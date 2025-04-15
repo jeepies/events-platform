@@ -7,7 +7,16 @@ async function seed() {
     data: {
       email: 'test@example.com',
       password: bcrypt.hashSync('eventsPlatformTester!123', config.BCRYPT_COST),
-      display_name: "events_platform_tester"
+      display_name: 'eventer',
+    },
+  });
+
+  const firstEvent = await prisma.event.create({
+    data: {
+      title: 'The first event',
+      description: 'This is the first ever event. like in the world. ever.',
+      time: new Date(),
+      location: "The Core Theatre",
     },
   });
 }
