@@ -1,9 +1,11 @@
 import { Event } from '@prisma/client';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { Link, redirect, useLoaderData } from '@remix-run/react';
-import { ArrowRight, Plus } from 'lucide-react';
+import { ArrowRight, Calendar, Plus } from 'lucide-react';
+import { start } from 'repl';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
+import { dateObjectToHMString, dateObjectToYMDString } from '~/lib/utils';
 import { prisma } from '~/services/database.server';
 import { getSession, getUserBySession } from '~/services/session.server';
 
@@ -35,23 +37,44 @@ export default function Events() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {events.map((e: Event) => (
-          <Card>
-            <CardHeader>
-              <CardTitle>{e.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {e.description}
+        {events.map(({ title, description, start_time, end_time, id }: Event) => {
+          const startDate = dateObjectToYMDString(start_time);
+          const endDate = dateObjectToYMDString(end_time);
 
-              <Link
-                className="float-right text-muted-foreground hover:animate-slide-right hover:text-secondary-foreground"
-                to={`/dashboard/event/${e.id}`}
-              >
-                <ArrowRight />
-              </Link>
-            </CardContent>
-          </Card>
-        ))}
+          const isSingleDay = startDate === endDate;
+
+          const startTime = dateObjectToHMString(start_time);
+          const endTime = dateObjectToHMString(end_time);
+
+          return (
+            <Card>
+              <CardContent className="p-0">
+                <div className="w-full h-36 bg-slate-300 rounded-t p-2" />
+                <div className="px-2 pb-2">
+                  <p className="my-2 text-xl font-bold truncate inline-flex">{title}</p>
+                  <p className="text-md my-2 truncate">{description}</p>
+                  <span className="text-muted-foreground text-sm inline-flex">
+                    <Calendar size={20} className="mr-1" />
+                    {isSingleDay ?
+                      <>
+                        {startTime} to {endTime}, {startDate}
+                      </>
+                    : <>
+                        {startTime} {startDate} to {endTime} {endDate}
+                      </>
+                    }
+                  </span>
+                  <Link
+                    className="float-right text-muted-foreground hover:animate-slide-right hover:text-secondary-foreground"
+                    to={`/dashboard/event/${id}`}
+                  >
+                    <ArrowRight />
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
     </>
   );
