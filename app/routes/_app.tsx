@@ -25,7 +25,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       },
     });
 
-  return { user };
+  return user;
 }
 
 export default function App() {

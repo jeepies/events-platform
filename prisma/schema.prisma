@@ -26,7 +26,8 @@ model Event {
   id          String   @unique @default(cuid())
   title       String
   description String
-  time        DateTime
+  start_time  DateTime
+  end_time    DateTime
   location    String
 
   attendees Attendee[]

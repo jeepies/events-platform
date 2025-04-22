@@ -10,10 +10,10 @@ import { Button } from '~/components/ui/button';
 import { Checkbox } from '~/components/ui/checkbox';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip';
 import { authenticator } from '~/services/authentication/authenticator.server';
 import { LoginForm, loginSchema } from '~/services/authentication/schemas';
 import { commitSession, getSession } from '~/services/session.server';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip';
 
 export async function action({ request }: ActionFunctionArgs) {
   const auth = await authenticator.authenticate('form', request);
@@ -60,8 +60,20 @@ export default function Login() {
   function testerDetails() {
     submit(
       {
-        email: 'test@example.com',
+        email: 'test@events-platform.com',
         password: 'eventsPlatformTester!123',
+        rememberMe: false,
+        type: 'login',
+      },
+      { method: 'POST', encType: 'multipart/form-data' }
+    );
+  }
+
+  function staffTesterDetails() {
+    submit(
+      {
+        email: 'admin@events-platform.com',
+        password: 'eventsPlatformStaff!123',
         rememberMe: false,
         type: 'login',
       },
@@ -161,6 +173,19 @@ export default function Login() {
           <TooltipTrigger asChild>
             <Button className="w-full mt-2" variant="outline" onClick={testerDetails}>
               I'm here to test
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent className="bg-black">
+            <p>This will log you into a shared account, accessible to everybody</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button className="w-full mt-2" variant="outline" onClick={staffTesterDetails}>
+              I'm here to test (staff)
             </Button>
           </TooltipTrigger>
           <TooltipContent className="bg-black">
