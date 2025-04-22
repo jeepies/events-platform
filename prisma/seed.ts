@@ -3,6 +3,8 @@ import config from '~/services/config.server';
 import { prisma } from '~/services/database.server';
 
 async function seed() {
+  const now = new Date();
+
   const testUser = await prisma.user.create({
     data: {
       email: 'test@events-platform.com',
@@ -24,7 +26,8 @@ async function seed() {
     data: {
       title: 'The first event',
       description: 'This is the first ever event. like in the world. ever.',
-      time: new Date(),
+      start_time: now,
+      end_time: new Date(now.setDate(now.getDate() + 1)),
       location: 'The Core Theatre',
     },
   });
