@@ -1,7 +1,6 @@
 import { Event } from '@prisma/client';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { Link, redirect, useLoaderData } from '@remix-run/react';
-import { request } from 'http';
 import { ArrowRight, Plus } from 'lucide-react';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
@@ -30,7 +29,7 @@ export default function Events() {
         <h2 className="text-xl font-semibold">Recent Events</h2>
         {user?.is_staff ?
           <Button asChild>
-            <Link to="/dashboard/event/create">
+            <Link to="/admin/event/create">
               <Plus className="mr-2 h-4 w-4" /> Create Event
             </Link>
           </Button>
