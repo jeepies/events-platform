@@ -1,6 +1,7 @@
 import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { netlifyPlugin } from "@netlify/remix-adapter/plugin";
 
 declare module "@remix-run/node" {
   interface Future {
@@ -20,8 +21,9 @@ export default defineConfig({
       },
     }),
     tsconfigPaths(),
+    netlifyPlugin()
   ],
   server: {
-    allowedHosts: ["201e-95-175-134-235.ngrok-free.app"]
+    allowedHosts: ["ac7e-82-30-76-105.ngrok-free.app"]
   }
 });
