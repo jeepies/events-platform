@@ -60,6 +60,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@netlify/remix-adapter": "^2.6.1",
     "@remix-run/dev": "^2.16.4",
     "@types/node": "^22.14.0",
     "@types/react": "^18.2.20",
