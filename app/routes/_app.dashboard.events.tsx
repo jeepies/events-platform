@@ -21,8 +21,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function Events() {
   const { events, user } = useLoaderData<typeof loader>();
 
-  console.log(user);
-
   return (
     <>
       <div className="flex justify-between items-center mb-6">
@@ -47,7 +45,7 @@ export default function Events() {
 
               <Link
                 className="float-right text-muted-foreground hover:animate-slide-right hover:text-secondary-foreground"
-                to={`/event/${e.id}`}
+                to={`/dashboard/event/${e.id}`}
               >
                 <ArrowRight />
               </Link>
