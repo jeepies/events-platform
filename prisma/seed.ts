@@ -27,7 +27,7 @@ async function seed() {
       title: 'The first event',
       description: 'This is the first ever event. like in the world. ever.',
       start_time: now,
-      end_time: new Date(now.setDate(now.getDate() + 1)),
+      end_time: now,
       location: 'The Core Theatre',
     },
   });
