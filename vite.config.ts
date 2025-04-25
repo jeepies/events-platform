@@ -24,6 +24,6 @@ export default defineConfig({
     netlifyPlugin()
   ],
   server: {
-    allowedHosts: ["ac7e-82-30-76-105.ngrok-free.app"]
+    allowedHosts: ["bcc6-82-30-76-105.ngrok-free.app"]
   }
 });
