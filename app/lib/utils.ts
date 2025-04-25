@@ -11,5 +11,11 @@ export function dateObjectToYMDString(date: Date): string {
 }
 
 export function dateObjectToHMString(date: Date): string {
-  return `${date.getHours()}:${date.getMinutes()}`;
+  const hours = date.getHours().toString();
+  const minutes = date.getMinutes().toString();
+
+  const formattedHours = hours.length === 1 ? `0${hours}` : hours;
+  const formattedMinutes = minutes.length === 1 ? `0${minutes}` : minutes;
+
+  return `${formattedHours}:${formattedMinutes}`;
 }
