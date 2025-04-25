@@ -1,11 +1,11 @@
 import { LoaderFunctionArgs, redirect } from '@remix-run/node';
-import { Link, useLoaderData } from '@remix-run/react';
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
-import { prisma } from '~/services/database.server';
+import { useLoaderData } from '@remix-run/react';
 import { AddToCalendarButton } from 'add-to-calendar-button-react';
+import { toast } from 'sonner';
+import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { dateObjectToHMString, dateObjectToYMDString } from '~/lib/utils';
+import { prisma } from '~/services/database.server';
 import { getSession, getUserBySession } from '~/services/session.server';
-import { Calendar, ArrowRight } from 'lucide-react';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
@@ -21,11 +21,16 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
   if (!event) return redirect('/dashboard/events');
 
-  return { event, user };
+  const url = new URL(request.url);
+  const isNewEvent = url.searchParams.get('ec');
+
+  return { isNewEvent, event, user };
 }
 
 export default function Component() {
-  const { event, user } = useLoaderData<typeof loader>();
+  const { isNewEvent, event, user } = useLoaderData<typeof loader>();
+
+  if (isNewEvent) toast.success(`Successfully created '${event.title}'!`);
 
   return (
     <>
