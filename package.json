@@ -17,7 +17,7 @@
     "db:seed": "bunx prisma db seed",
     "db:migrate": "bunx prisma migrate dev",
     "db:setup": "bun db:migrate && bun db:seed && bun db:generate",
-    "postinstall": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
