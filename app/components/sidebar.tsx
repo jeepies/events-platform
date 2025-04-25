@@ -25,14 +25,14 @@ export function Sidebar({ className }: SidebarProps) {
               </Link>
             </Button>
           </div>
-          <div className="space-y-1">
+          {/* <div className="space-y-1">
             <Button asChild variant="ghost" className="w-full justify-start text-gray-900 dark:text-gray-100">
               <Link to="/dashboard/events">
                 <Tickets className="mr-2 h-4 w-4" />
                 Events
               </Link>
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="absolute bottom-4 left-0 right-0 px-3">
