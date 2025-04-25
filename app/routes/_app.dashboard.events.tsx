@@ -26,7 +26,7 @@ export default function Events() {
   return (
     <>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-semibold">Recent Events</h2>
+        <h2 className="text-xl font-semibold">All Events</h2>
         {user?.is_staff ?
           <Button asChild>
             <Link to="/admin/event/create">
