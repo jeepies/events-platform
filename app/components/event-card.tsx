@@ -16,7 +16,7 @@ export default function EventCard(props: Readonly<EventCardProps>) {
   const _end_time = format(end_time, 'hh:mm');
 
   const start_date = format(start_time, 'dd/MM/yyyy');
-  const end_date = format(end_time, 'dd/MM/yy');
+  const end_date = format(end_time, 'dd/MM/yyyy');
 
   const duration = formatDuration(
     intervalToDuration({
