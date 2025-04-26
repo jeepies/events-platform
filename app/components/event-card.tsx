@@ -40,12 +40,12 @@ export default function EventCard(props: Readonly<EventCardProps>) {
         <p className="text-md my-2">{description}</p>
         <span className="text-muted-foreground text-sm inline-flex">
           <Pin size={20} className="mr-1" />
-          {dateText}
+          {location}
         </span>
         <br />
         <span className="text-muted-foreground text-sm inline-flex">
           <Calendar size={20} className="mr-1" />
-          {location}
+          {dateText}
         </span>
         <br />
 
