@@ -10,6 +10,7 @@ import { getSession, getUserBySession } from '~/services/session.server';
 import { AddToCalendarButton } from 'add-to-calendar-button-react';
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { rm } from 'fs';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
@@ -90,14 +91,16 @@ export default function Event() {
   async function registerForEvent() {
     try {
       setIsLoading(true);
-      await new Promise((r) => setTimeout(r, 200));
-      submit(
-        {
-          event_id: event.id,
-          user_id: user.id,
-        },
-        { method: 'POST', encType: 'multipart/form-data' }
-      );
+      await new Promise((r) => {
+        submit(
+          {
+            event_id: event.id,
+            user_id: user.id,
+          },
+          { method: 'POST', encType: 'multipart/form-data' }
+        );
+        setTimeout(r, 5000)
+      });
     } finally {
       setIsLoading(false);
     }
