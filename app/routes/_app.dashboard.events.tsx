@@ -1,12 +1,9 @@
-import { Event } from '@prisma/client';
 import { LoaderFunctionArgs } from '@remix-run/node';
 import { Link, redirect, useLoaderData } from '@remix-run/react';
-import { ArrowRight, Calendar, Plus } from 'lucide-react';
-import { start } from 'repl';
+import { Plus } from 'lucide-react';
 import EventCard from '~/components/event-card';
+import Pagination, { PAGE_SIZE } from '~/components/pagination';
 import { Button } from '~/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
-import { dateObjectToHMString, dateObjectToYMDString } from '~/lib/utils';
 import { prisma } from '~/services/database.server';
 import { getSession, getUserBySession } from '~/services/session.server';
 
@@ -16,13 +13,22 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   if (!user) return redirect('/');
 
-  const events = await prisma.event.findMany({ orderBy: [{ createdAt: 'desc' }] });
+  const url = new URL(request.url);
 
-  return { events, user };
+  const page = Number(url.searchParams.get('page')) || 1;
+  const count = await prisma.event.count();
+
+  const events = await prisma.event.findMany({
+    orderBy: [{ createdAt: 'desc' }],
+    take: PAGE_SIZE,
+    skip: (page - 1) * PAGE_SIZE,
+  });
+
+  return { events, user, count, page };
 }
 
 export default function Events() {
-  const { events, user } = useLoaderData<typeof loader>();
+  const { events, user, count, page } = useLoaderData<typeof loader>();
 
   return (
     <>
@@ -42,6 +48,8 @@ export default function Events() {
           <EventCard event={event} />
         ))}
       </div>
+
+      <Pagination path="/dashboard/events" currentPage={page} totalCount={count}/>
     </>
   );
 }

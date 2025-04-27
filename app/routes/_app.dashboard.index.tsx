@@ -9,6 +9,7 @@ import { prisma } from '~/services/database.server';
 import { getSession, getUserBySession } from '~/services/session.server';
 import { Event } from '@prisma/client';
 import EventCard from '~/components/event-card';
+import { PAGE_SIZE } from '~/components/pagination';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
@@ -17,7 +18,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
   const user = await getUserBySession(session);
 
-  const events = await prisma.event.findMany({ orderBy: [{ createdAt: 'desc' }], take: 12 });
+  const events = await prisma.event.findMany({ orderBy: [{ createdAt: 'desc' }], take: 9 });
 
   if (!user) return redirect('/');
 
