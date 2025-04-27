@@ -19,15 +19,10 @@ export const registerSchema = z
     confirmPassword: z.string(),
     type: z.string(),
   })
-  .refine(
-    (data) => (
-      data.password === data.confirmPassword,
-      {
-        message: 'Passwords do not match',
-        path: 'confirmPassword',
-      }
-    )
-  );
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
 
 export type LoginForm = z.infer<typeof loginSchema>;
 export type RegisterForm = z.infer<typeof registerSchema>;
