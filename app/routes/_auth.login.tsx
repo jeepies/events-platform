@@ -50,8 +50,11 @@ export default function Login() {
   async function onSubmit(data: any) {
     try {
       setIsLoading(true);
-      await new Promise((r) => setTimeout(r, 200));
-      submit(data, { method: 'POST', encType: 'multipart/form-data' });
+      await new Promise((r) => {
+        setTimeout(r, 1200);
+        submit(data, { method: 'POST', encType: 'multipart/form-data' });
+        setTimeout(r, 5000);
+      });
     } finally {
       setIsLoading(false);
     }

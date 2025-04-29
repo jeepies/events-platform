@@ -1,16 +1,15 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, redirect } from '@remix-run/node';
 import { useLoaderData, useSubmit } from '@remix-run/react';
+import { AddToCalendarButton } from 'add-to-calendar-button-react';
 import { format, formatDuration, intervalToDuration } from 'date-fns';
+import { Loader2 } from 'lucide-react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader } from '~/components/ui/card';
 import { dateObjectToHMString, dateObjectToYMDString } from '~/lib/utils';
 import { prisma } from '~/services/database.server';
 import { getSession, getUserBySession } from '~/services/session.server';
-import { AddToCalendarButton } from 'add-to-calendar-button-react';
-import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
-import { rm } from 'fs';
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
@@ -99,7 +98,7 @@ export default function Event() {
           },
           { method: 'POST', encType: 'multipart/form-data' }
         );
-        setTimeout(r, 5000)
+        setTimeout(r, 5000);
       });
     } finally {
       setIsLoading(false);
