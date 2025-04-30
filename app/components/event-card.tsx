@@ -1,11 +1,12 @@
 import { Event } from '@prisma/client';
 import { Card, CardContent, CardHeader } from './ui/card';
-import { ArrowRight, Calendar, Pin } from 'lucide-react';
+import { ArrowRight, Calendar, Pin, Shield } from 'lucide-react';
 import { Link } from '@remix-run/react';
 import { format, formatDuration, intervalToDuration } from 'date-fns';
 
 interface EventCardProps {
   event: Event;
+  isStaff: boolean;
 }
 
 export default function EventCard(props: Readonly<EventCardProps>) {
@@ -55,6 +56,15 @@ export default function EventCard(props: Readonly<EventCardProps>) {
         >
           <ArrowRight />
         </Link>
+
+        {props.isStaff ?
+          <Link
+            className="float-right text-muted-foreground hover:animate-slide-right hover:text-secondary-foreground"
+            to={`/admin/event/${id}`}
+          >
+            <Shield />
+          </Link>
+        : <></>}
       </CardContent>
     </Card>
   );
