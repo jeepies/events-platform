@@ -20,6 +20,7 @@ export const updateEventSchema = z.object({
     })
     .optional(),
   location: z.string().min(1).optional(),
+  id: z.string(),
 });
 
 export type CreateEventSchema = z.infer<typeof createEventSchema>;
