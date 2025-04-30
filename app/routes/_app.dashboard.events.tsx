@@ -45,11 +45,11 @@ export default function Events() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {events.map((event) => (
-          <EventCard event={event} />
+          <EventCard event={event} isStaff={user.is_staff} />
         ))}
       </div>
 
-      <Pagination path="/dashboard/events" currentPage={page} totalCount={count}/>
+      <Pagination path="/dashboard/events" currentPage={page} totalCount={count} />
     </>
   );
 }
