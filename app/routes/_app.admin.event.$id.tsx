@@ -43,6 +43,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   if (query) {
     switch (query) {
       case 'delete':
+        await prisma.attendee.deleteMany({ where: { eventId: event.id } });
         await prisma.event.delete({ where: { id: event.id } });
         return redirect('/dashboard/events');
       case 'unregister':
