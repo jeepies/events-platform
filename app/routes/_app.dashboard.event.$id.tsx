@@ -15,7 +15,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
   const user = await getUserBySession(session);
 
-  if (!user) return redirect('/');
+  if (!user) return redirect('/dashboard/events');
 
   const event = await prisma.event.findFirst({
     where: {

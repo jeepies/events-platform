@@ -38,7 +38,7 @@ export default function EventCard(props: Readonly<EventCardProps>) {
       </CardHeader>
       <CardContent className="p-2 truncate">
         <h1 className="text-xl inline-flex">{title}</h1>
-        <p className="text-md my-2">{description}</p>
+        <p className="text-md my-2 truncate">{description}</p>
         <span className="text-muted-foreground text-sm inline-flex">
           <Pin size={20} className="mr-1" />
           {location}

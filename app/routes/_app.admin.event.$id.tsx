@@ -21,7 +21,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const session = await getSession(request.headers.get('Cookie'));
   const user = await getUserBySession(session);
 
-  if (!user || !user.is_staff) return redirect('/');
+  if (!user || !user.is_staff) return redirect('/dashboard/events');
 
   const event = await prisma.event.findFirst({
     where: {
@@ -29,7 +29,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
     },
   });
 
-  if (!event) return redirect('/');
+  if (!event) return redirect('/dashboard/events');
 
   const stats = {
     attendees: await prisma.attendee.count({ where: { eventId: params.id } }),
@@ -80,7 +80,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const event = await prisma.event.count({ where: { id: data.id } });
 
-  if (!event) return redirect('/');
+  if (!event) return redirect('/dashboard/events');
 
   await prisma.event.update({
     where: {
