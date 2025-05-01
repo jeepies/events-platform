@@ -1,15 +1,11 @@
 import { LoaderFunctionArgs, redirect } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { ArrowRight, Calendar, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '~/components/ui/button';
-import { Card, CardContent } from '~/components/ui/card';
-import { dateObjectToHMString, dateObjectToYMDString } from '~/lib/utils';
 import { prisma } from '~/services/database.server';
 import { getSession, getUserBySession } from '~/services/session.server';
-import { Event } from '@prisma/client';
 import EventCard from '~/components/event-card';
-import { PAGE_SIZE } from '~/components/pagination';
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url = new URL(request.url);
@@ -58,7 +54,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 grid-rows-4 gap-6 mb-8">
         {events.map((event) => (
-          <EventCard event={event} />
+          <EventCard event={event} isStaff={user.is_staff} />
         ))}
       </div>
     </>
