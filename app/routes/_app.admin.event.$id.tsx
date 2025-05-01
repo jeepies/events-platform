@@ -38,6 +38,19 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
   const url = new URL(request.url);
   const isFromUpdate = url.searchParams.get('updated');
 
+  const query = url.searchParams.get('query');
+
+  if (query) {
+    switch (query) {
+      case 'delete':
+        await prisma.event.delete({ where: { id: event.id } });
+        return redirect('/dashboard/events');
+      case 'unregister':
+        await prisma.attendee.deleteMany({ where: { eventId: event.id } });
+        return redirect(`/admin/event/${event.id}`);
+    }
+  }
+
   return { event, user, stats, isFromUpdate };
 }
 
@@ -251,14 +264,18 @@ export default function EventAdmin() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-2 mt-4">
-            <Button variant="destructive">
-              <BanknoteX className="mr-2 h-4 w-4" />
-              Unregister all attendees
-            </Button>
-            <Button variant="destructive">
-              <Trash2 className="mr-2 h-4 w-4" />
-              Delete Event
-            </Button>
+            <Link to={'?query=unregister'}>
+              <Button variant="destructive" className="w-full">
+                <BanknoteX className="mr-2 h-4 w-4" />
+                Unregister all attendees
+              </Button>
+            </Link>
+            <Link to={'?query=delete'}>
+              <Button variant="destructive" className="w-full">
+                <Trash2 className="mr-2 h-4 w-4" />
+                Delete Event
+              </Button>
+            </Link>
           </div>
         </CardContent>
       </Card>
